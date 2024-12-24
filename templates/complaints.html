@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% extends 'side.html' %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kk</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+    {% block content %}
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <form method="POST" enctype="multipart/form-data">  <!-- enctype is necessary for file upload -->
+            {% csrf_token %}
+            
+            <!-- Other form fields here, e.g., title, description, priority -->
+            
+            <div>
+                <label for="id_attachment">Attachment</label>
+                {{ form.attachment }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <h1>Manage Complaints</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Category</th>
+            <th>Branch</th>
+            <th>Details</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for complaint in complaints %}
+        <tr>
+            <td>{{ complaint.id }}</td>
+            <td>{{ complaint.category }}</td>
+            <td>{{ complaint.branch }}</td>
+            <td>{{ complaint.complaint_details }}</td>
+            <td>{{ complaint.get_status_display }}</td>
+            <td>
+                <a href="{% url 'admin:update_status' complaint.id %}?status=PN" class="btn btn-warning">Pending</a>
+                <a href="{% url 'admin:update_status' complaint.id %}?status=SO" class="btn btn-success">Solved</a>
+                <a href="{% url 'admin:update_status' complaint.id %}?status=RJ" class="btn btn-danger">Rejected</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    {% endblock %}
+</body>
+</html>

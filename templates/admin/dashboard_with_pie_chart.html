@@ -1,0 +1,23 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+  <div class="module">
+    <h2>Dashboard</h2>
+    <div>
+      <h3>Grievances by Category (Pie Chart)</h3>
+      <img src="{{ pie_chart }}" alt="Pie Chart">
+    </div>
+    <div>
+      <h3>Grievances by Category Data</h3>
+      <ul>
+        {% for item in grievances_by_category %}
+          <li>{{ item.category__category }}: {{ item.count }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div>
+      <h3>Average Resolution Time: {{ avg_resolution_time }} days</h3>
+      <h3>Average Feedback Score: {{ avg_feedback_score }}</h3>
+    </div>
+  </div>
+{% endblock %}

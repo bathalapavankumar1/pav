@@ -1,0 +1,36 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+<h1>Complaint Visualization</h1>
+
+<div>
+    <h3>Complaints by Category</h3>
+    <canvas id="categoryChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('categoryChart').getContext('2d');
+    const data = {
+        labels: {{ complaints_by_category|map:'category__category'|safe }},
+        datasets: [{
+            label: 'Number of Complaints',
+            data: {{ complaints_by_category|map:'count'|safe }},
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1
+        }]
+    };
+
+    const config = {
+        type: 'bar',
+        data: data,
+    };
+
+    new Chart(ctx, config);
+</script>
+
+<div>
+    <h3>Average Resolution Time</h3>
+    <p>{{ avg_resolution_time }}</p>
+</div>
+{% endblock %}

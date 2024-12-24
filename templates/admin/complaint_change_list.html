@@ -1,0 +1,27 @@
+{% extends "admin/change_list.html" %}
+
+{% block content %}
+<h1>Complaints Dashboard</h1>
+
+<!-- Visualization Section -->
+<h2>Data Insights</h2>
+<h3>Grievances by Category</h3>
+<img src="{{ graph_url }}" alt="Grievances by Category Chart">
+
+<h3>Average Resolution Time</h3>
+<p>{{ avg_resolution_time|default:"No data available" }}</p>
+
+<h3>Average Feedback Score</h3>
+<p>{{ avg_feedback_score|default:"No feedback yet" }}</p>
+
+<h3>Grievances Breakdown</h3>
+<ul>
+    {% for category in grievances_by_category %}
+    <li>{{ category.category__category }}: {{ category.count }}</li>
+    {% endfor %}
+</ul>
+
+<!-- Existing Complaints Table -->
+<h2>Complaint List</h2>
+{{ block.super }}
+{% endblock %}
